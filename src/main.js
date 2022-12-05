@@ -36,6 +36,11 @@ window.addEventListener('load',(event)=>
                 {
                     console.log(' image loaded');
                     console.log('size:' + img.width + 'x' + img.height);
+                    let copyDiv = document.getElementById('captureDiv');
+
+                    document.body.appendChild(copyDiv);
+                    copyDiv.appendChild(img);
+
                 })
 
             })
@@ -57,7 +62,7 @@ window.addEventListener('load',(event)=>
         background:[0.2,0.2,0.1]
 
     }
-    let tryToHide = true;
+    let tryToHide = false;
 
     if (tryToHide)
     {
