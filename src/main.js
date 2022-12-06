@@ -29,7 +29,7 @@ window.addEventListener('load',(event)=>
         {
             capturePromises[0].then((imageURL)=>
             {
-                console.log(" url:" + imageURL);
+
                 let img = new Image();
                 img.src = imageURL;
                 img.addEventListener('load',(e)=>
@@ -66,7 +66,7 @@ window.addEventListener('load',(event)=>
 
     if (tryToHide)
     {
-        window.rw = vtkRenderWindow.newInstance({useOffscreen:true});
+        window.rw = vtkRenderWindow.newInstance();
         window.oglrw = vtkOpenGLRenderWindow.newInstance();
     }
     else
@@ -77,7 +77,7 @@ window.addEventListener('load',(event)=>
 
 
     window.oglrw.setContainer(container);
-    window.oglrw.setSize(container.clientWidth,container.clientHeight);
+    window.oglrw.setSize(512,512);
     window.rw.addView(window.oglrw);
 
 
@@ -132,8 +132,6 @@ window.addEventListener('load',(event)=>
     imageActor.getProperty().setColorLevel(1000);
     imageActor.getProperty().setColorWindow(2000);
     renderer.getRenderWindow().render();
-   window.rw.render();
-    window.oglrw.render();
 
     console.log(" one time render done");
 })
