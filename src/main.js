@@ -34,12 +34,13 @@ window.addEventListener('load',(event)=>
                 img.src = imageURL;
                 img.addEventListener('load',(e)=>
                 {
+                    let drawCanvas=document.getElementById('drawnCanvas');
+                    let ctxt=drawCanvas.getContext('2d');
+                    console.log(" container size:" + JSON.stringify(window.containerSize));
+                    ctxt.drawImage(img,0,0,window.containerSize.width,window.containerSize.height,0,0,256,256);
                     console.log(' image loaded');
                     console.log('size:' + img.width + 'x' + img.height);
-                    let copyDiv = document.getElementById('captureDiv');
 
-                    document.body.appendChild(copyDiv);
-                    copyDiv.appendChild(img);
 
                 })
 
@@ -50,7 +51,18 @@ window.addEventListener('load',(event)=>
     window.started=true;
     console.log(' start');
     let fgSlices = 32;
-    let container = document.getElementById('renderDiv');
+    let hiddenContainer=document.createElement('div');
+    hiddenContainer.hidden = true;
+    hiddenContainer.style.width='512px';
+    hiddenContainer.style.height='512px';
+    window.containerSize = {
+        width:512,
+        height:512
+    }
+
+
+  //  let container = document.getElementById('renderDiv');
+    let container = hiddenContainer;
 
     let dirMatrix = mat3.create();
     mat3.identity(dirMatrix);
@@ -62,21 +74,24 @@ window.addEventListener('load',(event)=>
         background:[0.2,0.2,0.1]
 
     }
-    let tryToHide = false;
+    let tryToHide = true;
 
     if (tryToHide)
     {
         window.rw = vtkRenderWindow.newInstance();
-        window.oglrw = vtkOpenGLRenderWindow.newInstance();
+        window.oglrw = vtkOpenGLRenderWindow.newInstance({useOffScreen:true});
     }
     else
     {
+
         window.rw = vtkRenderWindow.newInstance();
-        window.oglrw = vtkOpenGLRenderWindow.newInstance({useOffScreen:true});
+        window.oglrw = vtkOpenGLRenderWindow.newInstance();
     }
 
 
     window.oglrw.setContainer(container);
+    console.log(' container w,h ' + container.clientWidth + ',' + container.clientHeight);
+
     window.oglrw.setSize(512,512);
     window.rw.addView(window.oglrw);
 
